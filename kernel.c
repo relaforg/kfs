@@ -50,9 +50,48 @@ size_t strlen(const char* str)
 	return len;
 }
 
+void	*memmove(void *dest, const void *src, size_t n)
+{
+	size_t	i;
+
+	if (!dest && !src)
+		return (NULL);
+	i = 0;
+	if ((char *) src < (char *) dest)
+	{
+		while (i < n)
+		{
+			((char *) dest)[n - 1 - i] = ((char *) src)[n - 1 - i];
+			i++;
+		}
+	}
+	else
+	{
+		while (i < n)
+		{
+			((char *) dest)[i] = ((char *) src)[i];
+			i++;
+		}
+	}
+	return (dest);
+}
+
+void	bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		((char *)s)[i] = 0;
+		i++;
+	}
+}
+
 #define VGA_WIDTH   80
 #define VGA_HEIGHT  25
-#define VGA_MEMORY  0xB8000 
+#define VGA_MEMORY  0xB8000
+// #define VGA_MEMORY  (0xB8000 + VGA_WIDTH * 2)
 
 size_t terminal_row;
 size_t terminal_column;
@@ -84,19 +123,38 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 	terminal_buffer[index] = vga_entry(c, color);
 }
 
+void	terminal_up_scroll()
+{
+	memmove((char *) VGA_MEMORY,
+		 (char *) VGA_MEMORY + VGA_WIDTH * 2,
+		 (VGA_HEIGHT - 1) * VGA_WIDTH * sizeof(uint16_t)
+		 );
+	bzero(
+		(void *)VGA_MEMORY + (VGA_HEIGHT - 1) * VGA_WIDTH * sizeof(uint16_t),
+		VGA_WIDTH * sizeof(uint16_t)
+	   );
+}
+
 void terminal_putchar(char c) 
 {
 	if (c == '\n')
 	{
-		terminal_row++;
 		terminal_column = 0;
+		if (++terminal_row == VGA_HEIGHT)
+		{
+			terminal_up_scroll();
+			terminal_row = VGA_HEIGHT - 1;
+		}
 		return ;
 	}
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
-		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
+		if (++terminal_row >= VGA_HEIGHT)
+		{
+			terminal_up_scroll();
+			terminal_row = VGA_HEIGHT - 1;
+		}
 	}
 }
 
@@ -117,5 +175,12 @@ void kernel_main(void)
 	terminal_initialize();
 
 	/* Newline support is left as an exercise. */
-	terminal_writestring("Hello, kernel World!\n");
+	for (int i = 0 ; i < 30 ; i++)
+	{
+	    char tmp[3];          // chiffre + '\n' + '\0'
+		tmp[0] = (char)(i % 10 + 48);
+		tmp[1] = '\n';
+		tmp[2] = '\0';
+		terminal_writestring(tmp);
+	}
 }
