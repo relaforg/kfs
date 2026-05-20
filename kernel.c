@@ -177,7 +177,8 @@ void kernel_main(void)
 	/* Newline support is left as an exercise. */
 	for (int i = 0 ; i < 30 ; i++)
 	{
-	    char tmp[3];          // chiffre + '\n' + '\0'
+		terminal_setcolor(vga_entry_color(i % 16, i % 16 + 8));
+	    char tmp[3];
 		tmp[0] = (char)(i % 10 + 48);
 		tmp[1] = '\n';
 		tmp[2] = '\0';
