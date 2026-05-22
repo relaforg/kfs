@@ -48,7 +48,7 @@ $(LIBC):
 run: $(NAME) $(NAME).iso
 	 $(QEMU) -cdrom $(NAME).iso
 
-$(NAME).iso:
+$(NAME).iso: $(NAME)
 	mkdir -p $(SYSROOT)/boot/grub
 	cp grub.cfg $(SYSROOT)/boot/grub
 	cp $(NAME) $(SYSROOT)/boot

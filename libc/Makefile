@@ -1,6 +1,6 @@
 CC := i686-elf-gcc
 INCLUDES := -Iincludes
-CFLAGS := -Werror -Wextra -Wall -MD $(INCLUDES)
+CFLAGS := -Werror -Wextra -Wall -MD $(INCLUDES) -freestanding
 NAME := libc.a
 BUILD_DIR := .build
 
