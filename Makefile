@@ -41,10 +41,10 @@ $(LIBC):
 	$(MAKE) -C libc
 
 run: $(NAME)
-	mkdir -p isodir/boot/grub
-	cp grub.cfg isodir/boot/grub
-	cp $(NAME) isodir/boot
-	$(MKRESCUE_PATH) -o $(NAME).iso isodir -d $(GRUB_PATH)/i386-pc
+	mkdir -p $(SYSROOT)/boot/grub
+	cp grub.cfg $(SYSROOT)/boot/grub
+	cp $(NAME) $(SYSROOT)/boot
+	$(MKRESCUE_PATH) -o $(NAME).iso $(SYSROOT) -d $(GRUB_PATH)/i386-pc
 	 $(QEMU) -cdrom $(NAME).iso
 
 $(BUILD_DIR):
