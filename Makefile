@@ -1,15 +1,16 @@
-SYSROOT = sysroot
+SYSROOT := $(PWD)/sysroot
 CC := i686-elf-gcc
 ASM = i686-elf-as
 NAME := kfs
 BUILD_DIR := .build
-GCC_INCLUDE := $(shell $(CC) $(CFLAGS) -print-file-name=include)
 CFLAGS = --sysroot=$(SYSROOT) -std=gnu99 -ffreestanding -O2 \
-		 -Wall -Wextra -MD -Iincludes -Ilibc/includes
+		 -Wall -Wextra -MD \
+		 -isystem $(SYSROOT)/usr/include
 LINKER_FLAGS = -ffreestanding -O2 -nostdlib -lgcc
 MKRESCUE_PATH = ~/.local/bin/grub-mkrescue
 GRUB_PATH = ~/.local/lib/grub
 QEMU = qemu-system-i386
+
 LIBC = libc/libc.a
 
 CRTI_OBJ = $(BUILD_DIR)/crti.o
@@ -17,6 +18,8 @@ CRTBEGIN_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
 CRTN_OBJ = $(BUILD_DIR)/crtn.o
 
+vpath %.c src
+vpath %.s src/asm
 SRCS := kernel.c
 OBJS := $(addprefix $(BUILD_DIR)/, $(SRCS:.c=.o))
 DEPS := $(OBJS:.o=.d)
@@ -31,8 +34,7 @@ INCLUDE_DIR = includes
 INCLUDES =
 
 
-all: $(NAME) install_headers
-
+all: install_headers $(NAME)
 
 $(NAME): $(BUILD_DIR) $(LIBC) $(OBJ_LINK_LIST) $(BOOT_OBJ)
 	$(CC) -T linker.ld -o $(NAME) $(LINKER_FLAGS) $(BOOT_OBJ) $(OBJ_LINK_LIST) $(LIBC)
@@ -70,8 +72,9 @@ fclean: clean
 re: fclean all
 
 install_headers:
-	mkdir -p $(SYSROOT)/usr/local
-	cp -R --preserve=timestamps $(INCLUDE_DIR)/. $(SYSROOT)/usr/local/.
+	mkdir -p $(SYSROOT)/usr/include
+	cp -R --preserve=timestamps $(INCLUDE_DIR)/. $(SYSROOT)/usr/include/.
+	cp libc/includes/libft.h $(SYSROOT)/usr/include/
 
 .PHONY: all clean fclean re run install_headers
 
