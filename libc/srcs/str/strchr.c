@@ -1,16 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 10:30:36 by relaforg          #+#    #+#             */
-/*   Updated: 2025/11/24 10:30:43 by relaforg         ###   ########.fr       */
+/*   Created: 2025/11/03 12:56:59 by relaforg          #+#    #+#             */
+/*   Updated: 2025/11/03 13:14:13 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(char c)
+#include <stddef.h>
+
+char	*strchr(const char *s, int c)
 {
-	return ((c >= 9 && c <= 13) || c == ' ');
+	while (*s != (char) c)
+	{
+		if (!*s)
+			return (NULL);
+		s++;
+	}
+	return ((char *) s);
 }

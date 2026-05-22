@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stdlib.h                                           :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/22 15:23:26 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 15:24:04 by relaforg         ###   ########.fr       */
+/*   Created: 2025/11/24 10:30:36 by relaforg          #+#    #+#             */
+/*   Updated: 2025/11/24 10:30:43 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STDLIB_H
-# define STDLIB_H
-
-int		toupper(int c);
-int		tolower(int c);
-int		atoi(const char *nptr);
-long	strtol(char *s, char **end);
-int		strtoi(char *s, char **end);
-int		toabs(int n);
-
-#endif
+int	isspace(char c)
+{
+	return ((c >= 9 && c <= 13) || c == ' ');
+}

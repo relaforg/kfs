@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isqrt.c                                         :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/17 11:26:56 by relaforg          #+#    #+#             */
-/*   Updated: 2025/12/17 14:31:16 by relaforg         ###   ########.fr       */
+/*   Created: 2025/11/03 13:15:52 by relaforg          #+#    #+#             */
+/*   Updated: 2025/11/03 13:30:35 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isqrt(int n)
-{
-	int	i;
+#include <stddef.h>
 
-	i = 0;
-	while (i * i <= n)
+char	*strrchr(const char *s, int c)
+{
+	char	*occ;
+
+	occ = NULL;
+	while (*s)
 	{
-		if (i * i == n)
-			return (i);
-		i++;
+		if (*s == (char) c)
+			occ = (char *) s;
+		s++;
 	}
-	return (i);
+	if (*s == (char) c)
+		occ = (char *) s;
+	return (occ);
 }

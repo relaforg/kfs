@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 12:15:33 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 15:27:30 by relaforg         ###   ########.fr       */
+/*   Created: 2025/11/03 17:48:07 by relaforg          #+#    #+#             */
+/*   Updated: 2026/05/22 15:28:07 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-#include "string.h"
+#include "ctype.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+int	atoi(const char *nptr)
 {
-	size_t	i;
-	size_t	dest_len;
-	size_t	src_len;
+	int			sign;
+	long int	out;
 
-	dest_len = ft_strlen(dst);
-	src_len = ft_strlen(src);
-	if (size <= dest_len)
-		return (src_len + size);
-	i = 0;
-	while (src[i] != 0 && i < size - dest_len - 1)
+	sign = 1;
+	while (isspace(*nptr))
+		nptr++;
+	if (*nptr == '-' || *nptr == '+')
 	{
-		dst[dest_len + i] = src[i];
-		i++;
+		if (*nptr == '-')
+			sign = -1;
+		nptr++;
 	}
-	dst[dest_len + i] = 0;
-	return (dest_len + src_len);
+	out = 0;
+	while (isdigit(*nptr))
+	{
+		out = out * 10 + (*nptr - '0');
+		if ((sign == 1 && out > 2147483647) /*|| (sign == -1 && out > 2147483648)*/)
+			return (0);
+		nptr++;
+	}
+	return ((int)(out * sign));
 }

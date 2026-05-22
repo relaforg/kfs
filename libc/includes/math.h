@@ -6,13 +6,13 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/22 15:19:16 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 15:19:49 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/22 16:15:02 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATH_H
 # define MATH_H
 
-int		ft_isqrt(int n);
+int		isqrt(int n);
 
 #endif

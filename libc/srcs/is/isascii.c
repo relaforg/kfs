@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 12:56:59 by relaforg          #+#    #+#             */
-/*   Updated: 2025/11/03 13:14:13 by relaforg         ###   ########.fr       */
+/*   Created: 2025/08/24 17:07:33 by relaforg          #+#    #+#             */
+/*   Updated: 2025/08/24 17:08:58 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-char	*ft_strchr(const char *s, int c)
+int	isascii(int c)
 {
-	while (*s != (char) c)
-	{
-		if (!*s)
-			return (NULL);
-		s++;
-	}
-	return ((char *) s);
+	if (c >= 0 && c < 128)
+		return (1);
+	return (0);
 }

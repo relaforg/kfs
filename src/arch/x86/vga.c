@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   vga.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/26 22:27:18 by relaforg          #+#    #+#             */
-/*   Updated: 2025/11/21 17:28:21 by relaforg         ###   ########.fr       */
+/*   Created: 2026/05/22 16:08:21 by relaforg          #+#    #+#             */
+/*   Updated: 2026/05/22 16:22:37 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "vga.h"
 
-size_t	ft_strlen(const char *s)
+uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
-	size_t	size;
+	return (fg | bg << 4);
+}
 
-	if (!s)
-		return (0);
-	size = 0;
-	while (s[size])
-		size++;
-	return (size);
+uint16_t vga_entry(unsigned char uc, uint8_t color) 
+{
+	return ((uint16_t) uc | (uint16_t) color << 8);
 }

@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 17:48:07 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 15:28:07 by relaforg         ###   ########.fr       */
+/*   Created: 2025/11/05 14:17:47 by relaforg          #+#    #+#             */
+/*   Updated: 2025/11/06 10:05:04 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ctype.h"
-
-int	ft_atoi(const char *nptr)
+void	striteri(char *s, void (*f)(unsigned int, char*))
 {
-	int			sign;
-	long int	out;
+	int	i;
 
-	sign = 1;
-	while (ft_isspace(*nptr))
-		nptr++;
-	if (*nptr == '-' || *nptr == '+')
+	if (!s || !f)
+		return ;
+	i = 0;
+	while (*(s + i))
 	{
-		if (*nptr == '-')
-			sign = -1;
-		nptr++;
+		f(i, s + i);
+		i++;
 	}
-	out = 0;
-	while (ft_isdigit(*nptr))
-	{
-		out = out * 10 + (*nptr - '0');
-		if ((sign == 1 && out > 2147483647) /*|| (sign == -1 && out > 2147483648)*/)
-			return (0);
-		nptr++;
-	}
-	return ((int)(out * sign));
 }

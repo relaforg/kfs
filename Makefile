@@ -1,3 +1,5 @@
+ARCH ?= x86
+ARCH_DIR := src/arch/$(ARCH)
 SYSROOT := $(PWD)/sysroot
 CC := i686-elf-gcc
 ASM = i686-elf-as
@@ -5,7 +7,8 @@ NAME := kfs
 BUILD_DIR := .build
 CFLAGS = --sysroot=$(SYSROOT) -std=gnu99 -ffreestanding -O2 \
 		 -Wall -Wextra -MD \
-		 -isystem $(SYSROOT)/usr/include
+		 -isystem $(SYSROOT)/usr/include \
+		 -Iincludes
 LINKER_FLAGS = -ffreestanding -O2 -nostdlib -lgcc
 MKRESCUE_PATH ?= ~/.local/bin/grub-mkrescue
 GRUB_PATH ?= ~/.local/lib/grub
@@ -18,21 +21,23 @@ CRTBEGIN_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtbegin.o)
 CRTEND_OBJ := $(shell $(CC) $(CFLAGS) -print-file-name=crtend.o)
 CRTN_OBJ = $(BUILD_DIR)/crtn.o
 
-vpath %.c src
-vpath %.s src/asm
-SRCS := kernel.c
+vpath %.c src $(ARCH_DIR)
+vpath %.s src/asm $(ARCH_DIR)
+SRCS := kernel.c terminal.c
+ARCH_SRCS := vga.c
+BOOT_SRC := boot.s
+
 OBJS := $(addprefix $(BUILD_DIR)/, $(SRCS:.c=.o))
+ARCH_OBJS := $(addprefix $(BUILD_DIR)/, $(ARCH_SRCS:.c=.o))
+BOOT_OBJ := $(BUILD_DIR)/boot.o
 DEPS := $(OBJS:.o=.d)
 
-OBJ_LINK_LIST:=$(CRTI_OBJ) $(CRTBEGIN_OBJ) $(OBJS) $(CRTEND_OBJ) $(CRTN_OBJ)
+OBJ_LINK_LIST:=$(CRTI_OBJ) $(CRTBEGIN_OBJ) $(OBJS) $(ARCH_OBJS) $(CRTEND_OBJ) $(CRTN_OBJ)
 INTERNAL_OBJS:=$(CRTI_OBJ) $(OBJS) $(CRTN_OBJ)
 
-BOOT_SRC := boot.s
-BOOT_OBJ := $(BUILD_DIR)/boot.o
 
 vpath %.h includes
 INCLUDE_DIR = includes
-HEADERS = test.h
 
 STAMP_HEADERS := $(BUILD_DIR)/.headers_installed
 

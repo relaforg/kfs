@@ -1,36 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 15:28:43 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 15:27:55 by relaforg         ###   ########.fr       */
+/*   Created: 2025/10/29 09:20:54 by relaforg          #+#    #+#             */
+/*   Updated: 2026/05/22 15:27:43 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include "string.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+size_t	strlcpy(char *dst, const char *src, size_t dsize)
 {
-	size_t	little_len;
 	size_t	i;
 
-	if (!*little)
-		return ((char *) big);
-	little_len = 0;
-	while (little[little_len])
-		little_len++;
-	if (!len)
-		return (NULL);
+	if (dsize == 0)
+		return (strlen(src));
 	i = 0;
-	while (i <= len - little_len && big[i] && len >= little_len)
+	while (i < dsize - 1 && src[i])
 	{
-		if (!ft_strncmp(&big[i], little, little_len))
-			return ((char *) &big[i]);
+		dst[i] = src[i];
 		i++;
 	}
-	return (NULL);
+	dst[i] = 0;
+	return (strlen(src));
 }

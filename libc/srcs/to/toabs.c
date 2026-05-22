@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   ft_toabs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/05 14:17:47 by relaforg          #+#    #+#             */
-/*   Updated: 2025/11/06 10:05:04 by relaforg         ###   ########.fr       */
+/*   Created: 2025/11/26 13:51:09 by relaforg          #+#    #+#             */
+/*   Updated: 2025/11/26 13:54:28 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+int	toabs(int n)
 {
-	int	i;
-
-	if (!s || !f)
-		return ;
-	i = 0;
-	while (*(s + i))
-	{
-		f(i, s + i);
-		i++;
-	}
+	if (n < 0)
+		return (-n);
+	return (n);
 }

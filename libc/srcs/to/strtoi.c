@@ -13,14 +13,14 @@
 #include <limits.h>
 #include "ctype.h"
 
-int	ft_strtoi(char *s, char **end)
+int	strtoi(char *s, char **end)
 {
 	long	out;
 	int		sign;
 
 	out = 0;
 	sign = 1;
-	while (ft_isspace(*s))
+	while (isspace(*s))
 		s++;
 	if (*s == '-' || *s == '+')
 	{
@@ -29,7 +29,7 @@ int	ft_strtoi(char *s, char **end)
 		s++;
 	}
 	*end = s;
-	while (ft_isdigit(*s))
+	while (isdigit(*s))
 	{
 		out = out * 10 + (*s - '0');
 		if ((sign == 1 && out > INT_MAX) || (sign == -1 && - out < INT_MIN))

@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtol.c                                        :+:      :+:    :+:   */
+/*   ft_isqrt.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 10:26:38 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 15:28:46 by relaforg         ###   ########.fr       */
+/*   Created: 2025/12/17 11:26:56 by relaforg          #+#    #+#             */
+/*   Updated: 2025/12/17 14:31:16 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ctype.h"
-
-long	ft_strtol(char *s, char **end)
+int	isqrt(int n)
 {
-	long	out;
-	int		sign;
+	int	i;
 
-	out = 0;
-	sign = 1;
-	while (ft_isspace(*s))
-		s++;
-	if (*s == '-' || *s == '+')
+	i = 0;
+	while (i * i <= n)
 	{
-		if (*s == '-')
-			sign = -1;
-		s++;
+		if (i * i == n)
+			return (i);
+		i++;
 	}
-	*end = s;
-	while (ft_isdigit(*s))
-	{
-		out = out * 10 + (*s - '0');
-		s++;
-		*end = s;
-	}
-	return (out * sign);
+	return (i);
 }

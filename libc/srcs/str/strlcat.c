@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/29 09:20:54 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 15:27:43 by relaforg         ###   ########.fr       */
+/*   Created: 2025/11/03 12:15:33 by relaforg          #+#    #+#             */
+/*   Updated: 2026/05/22 15:27:30 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include "string.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dsize)
+size_t	strlcat(char *dst, const char *src, size_t size)
 {
 	size_t	i;
+	size_t	dest_len;
+	size_t	src_len;
 
-	if (dsize == 0)
-		return (ft_strlen(src));
+	dest_len = strlen(dst);
+	src_len = strlen(src);
+	if (size <= dest_len)
+		return (src_len + size);
 	i = 0;
-	while (i < dsize - 1 && src[i])
+	while (src[i] != 0 && i < size - dest_len - 1)
 	{
-		dst[i] = src[i];
+		dst[dest_len + i] = src[i];
 		i++;
 	}
-	dst[i] = 0;
-	return (ft_strlen(src));
+	dst[dest_len + i] = 0;
+	return (dest_len + src_len);
 }
