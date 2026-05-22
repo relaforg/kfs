@@ -7,8 +7,8 @@ CFLAGS = --sysroot=$(SYSROOT) -std=gnu99 -ffreestanding -O2 \
 		 -Wall -Wextra -MD \
 		 -isystem $(SYSROOT)/usr/include
 LINKER_FLAGS = -ffreestanding -O2 -nostdlib -lgcc
-MKRESCUE_PATH = ~/.local/bin/grub-mkrescue
-GRUB_PATH = ~/.local/lib/grub
+MKRESCUE_PATH ?= ~/.local/bin/grub-mkrescue
+GRUB_PATH ?= ~/.local/lib/grub
 QEMU = qemu-system-i386
 
 LIBC = libc/libc.a
@@ -30,24 +30,29 @@ INTERNAL_OBJS:=$(CRTI_OBJ) $(OBJS) $(CRTN_OBJ)
 BOOT_SRC := boot.s
 BOOT_OBJ := $(BUILD_DIR)/boot.o
 
+vpath %.h includes
 INCLUDE_DIR = includes
-INCLUDES =
+HEADERS = test.h
+
+STAMP_HEADERS := $(BUILD_DIR)/.headers_installed
 
 
-all: install_headers $(NAME)
+all: $(NAME)
 
-$(NAME): $(BUILD_DIR) $(LIBC) $(OBJ_LINK_LIST) $(BOOT_OBJ)
+$(NAME): $(BUILD_DIR) $(STAMP_HEADERS) $(LIBC) $(OBJ_LINK_LIST) $(BOOT_OBJ)
 	$(CC) -T linker.ld -o $(NAME) $(LINKER_FLAGS) $(BOOT_OBJ) $(OBJ_LINK_LIST) $(LIBC)
 
 $(LIBC):
 	$(MAKE) -C libc
 
-run: $(NAME)
+run: $(NAME) $(NAME).iso
+	 $(QEMU) -cdrom $(NAME).iso
+
+$(NAME).iso:
 	mkdir -p $(SYSROOT)/boot/grub
 	cp grub.cfg $(SYSROOT)/boot/grub
 	cp $(NAME) $(SYSROOT)/boot
 	$(MKRESCUE_PATH) -o $(NAME).iso $(SYSROOT) -d $(GRUB_PATH)/i386-pc
-	 $(QEMU) -cdrom $(NAME).iso
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
@@ -71,10 +76,11 @@ fclean: clean
 
 re: fclean all
 
-install_headers:
+$(STAMP_HEADERS): $(HEADERS) libc/includes/libft.h | $(BUILD_DIR)
 	mkdir -p $(SYSROOT)/usr/include
 	cp -R --preserve=timestamps $(INCLUDE_DIR)/. $(SYSROOT)/usr/include/.
 	cp libc/includes/libft.h $(SYSROOT)/usr/include/
+	touch $@
 
 .PHONY: all clean fclean re run install_headers
 
