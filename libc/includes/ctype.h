@@ -1,38 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtol.c                                        :+:      :+:    :+:   */
+/*   ctype.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/24 10:26:38 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 15:28:46 by relaforg         ###   ########.fr       */
+/*   Created: 2026/05/22 15:18:14 by relaforg          #+#    #+#             */
+/*   Updated: 2026/05/22 15:18:47 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ctype.h"
+#ifndef CTYPE_H
+# define CTYPE_H
 
-long	ft_strtol(char *s, char **end)
-{
-	long	out;
-	int		sign;
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_isalnum(int c);
+int		ft_isascii(int c);
+int		ft_isprint(int c);
+int		ft_isspace(char c);
 
-	out = 0;
-	sign = 1;
-	while (ft_isspace(*s))
-		s++;
-	if (*s == '-' || *s == '+')
-	{
-		if (*s == '-')
-			sign = -1;
-		s++;
-	}
-	*end = s;
-	while (ft_isdigit(*s))
-	{
-		out = out * 10 + (*s - '0');
-		s++;
-		*end = s;
-	}
-	return (out * sign);
-}
+#endif

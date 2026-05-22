@@ -6,11 +6,11 @@
 /*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 17:48:07 by relaforg          #+#    #+#             */
-/*   Updated: 2025/11/24 10:31:01 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/22 15:28:07 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ctype.h"
 
 int	ft_atoi(const char *nptr)
 {

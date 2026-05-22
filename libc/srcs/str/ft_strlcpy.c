@@ -6,12 +6,12 @@
 /*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 09:20:54 by relaforg          #+#    #+#             */
-/*   Updated: 2025/11/03 16:20:56 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/22 15:27:43 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "libft.h"
+#include "string.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dsize)
 {

@@ -6,12 +6,12 @@
 /*   By: relaforg <relaforg@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 15:28:43 by relaforg          #+#    #+#             */
-/*   Updated: 2025/11/03 16:29:50 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/22 15:27:55 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "libft.h"
+#include "string.h"
 
 char	*ft_strnstr(const char *big, const char *little, size_t len)
 {

@@ -76,10 +76,10 @@ fclean: clean
 
 re: fclean all
 
-$(STAMP_HEADERS): $(HEADERS) libc/includes/libft.h | $(BUILD_DIR)
+$(STAMP_HEADERS): $(HEADERS) $(wildcard libc/includes/*.h) | $(BUILD_DIR)
 	mkdir -p $(SYSROOT)/usr/include
 	cp -R --preserve=timestamps $(INCLUDE_DIR)/. $(SYSROOT)/usr/include/.
-	cp libc/includes/libft.h $(SYSROOT)/usr/include/
+	cp -R --preserve=timestamps libc/includes/. $(SYSROOT)/usr/include/
 	touch $@
 
 .PHONY: all clean fclean re run install_headers

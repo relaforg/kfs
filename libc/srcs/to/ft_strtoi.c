@@ -6,11 +6,12 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 14:31:35 by relaforg          #+#    #+#             */
-/*   Updated: 2025/11/26 11:42:42 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/22 15:28:31 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <limits.h>
+#include "ctype.h"
 
 int	ft_strtoi(char *s, char **end)
 {
