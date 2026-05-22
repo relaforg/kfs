@@ -1,0 +1,5 @@
+libc.a
+*.o
+a.out
+*.d
+.build

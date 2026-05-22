@@ -1,0 +1,6 @@
+-Iincludes
+-Ilibc/includes
+-Wall
+-Wextra
+-std=gnu99
+-ffreestanding

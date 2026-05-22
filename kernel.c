@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "libft.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -42,52 +43,6 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t color)
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
 
-size_t strlen(const char* str) 
-{
-	size_t len = 0;
-	while (str[len])
-		len++;
-	return len;
-}
-
-void	*memmove(void *dest, const void *src, size_t n)
-{
-	size_t	i;
-
-	if (!dest && !src)
-		return (NULL);
-	i = 0;
-	if ((char *) src < (char *) dest)
-	{
-		while (i < n)
-		{
-			((char *) dest)[n - 1 - i] = ((char *) src)[n - 1 - i];
-			i++;
-		}
-	}
-	else
-	{
-		while (i < n)
-		{
-			((char *) dest)[i] = ((char *) src)[i];
-			i++;
-		}
-	}
-	return (dest);
-}
-
-void	bzero(void *s, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		((char *)s)[i] = 0;
-		i++;
-	}
-}
-
 #define VGA_WIDTH   80
 #define VGA_HEIGHT  25
 #define VGA_MEMORY  0xB8000
@@ -124,11 +79,11 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 
 void	terminal_up_scroll()
 {
-	memmove((char *) VGA_MEMORY,
+	ft_memmove((char *) VGA_MEMORY,
 		 (char *) VGA_MEMORY + VGA_WIDTH * 2,
 		 (VGA_HEIGHT - 1) * VGA_WIDTH * sizeof(uint16_t)
 		 );
-	bzero(
+	ft_bzero(
 		(void *)VGA_MEMORY + (VGA_HEIGHT - 1) * VGA_WIDTH * sizeof(uint16_t),
 		VGA_WIDTH * sizeof(uint16_t)
 	   );
@@ -165,7 +120,7 @@ void terminal_write(const char* data, size_t size)
 
 void terminal_writestring(const char* data) 
 {
-	terminal_write(data, strlen(data));
+	terminal_write(data, ft_strlen(data));
 }
 
 void kernel_main(void) 
