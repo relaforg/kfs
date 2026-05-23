@@ -1,4 +1,5 @@
 #include "terminal.h"
+#include <stdio.h>
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -14,5 +15,5 @@
 void kernel_main(void) 
 {
 	terminal_initialize();
-	terminal_writestring("Hello World!\n");
+	printf("%s\n", "Hello World!");
 }

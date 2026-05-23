@@ -1,10 +1,10 @@
 CC := i686-elf-gcc
-INCLUDES := -Iincludes
+INCLUDES := -Iincludes -I../includes
 CFLAGS := -Werror -Wextra -Wall -MD $(INCLUDES) -ffreestanding
 NAME := libc.a
 BUILD_DIR := .build
 
-VPATH := srcs/gnl:srcs/is:srcs/lst:srcs/mem:srcs/print:srcs/str:srcs/to:srcs/math
+VPATH := srcs/ctype:srcs/stdlib:srcs/string:srcs/math:srcs/stdio
 SRCS := isalnum.c\
 		isalpha.c\
 		isascii.c\
@@ -27,7 +27,10 @@ SRCS := isalnum.c\
 		strtol.c\
 		toabs.c\
 		tolower.c\
-		toupper.c
+		toupper.c\
+		printf.c\
+		putchar.c\
+		puts.c
 
 OBJS = $(addprefix $(BUILD_DIR)/, $(SRCS:.c=.o))
 DEPS = $(OBJS:.o=.d)
