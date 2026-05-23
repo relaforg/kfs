@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stdio.h                                            :+:      :+:    :+:   */
+/*   keyboard.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/23 11:25:12 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/23 13:59:10 by relaforg         ###   ########.fr       */
+/*   Created: 2026/05/23 12:51:43 by relaforg          #+#    #+#             */
+/*   Updated: 2026/05/23 13:07:45 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STDIO_H
-# define STDIO_H
+#ifndef KEYBOARD_H
+# define KEYBOARD_H
 
-# define EOF (-1)
+# define KEYBOARD_DATA		0x60
+# define KEYBOARD_STATUS	0x64
 
-int		printf(const char* __restrict, ...);
-int		putchar(int);
-int		puts(const char*);
-void	putnbr(int n);
+void	listen_keyboard(void);
 
 #endif

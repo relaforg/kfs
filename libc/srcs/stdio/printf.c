@@ -61,6 +61,10 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
+		} else if (*format == 'd') {
+			format++;
+			int str = va_arg(parameters, int);
+			putnbr(str);
 		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);

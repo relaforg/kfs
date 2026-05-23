@@ -24,7 +24,7 @@ CRTN_OBJ = $(BUILD_DIR)/crtn.o
 vpath %.c src $(ARCH_DIR)
 vpath %.s src/asm $(ARCH_DIR)
 SRCS := kernel.c terminal.c
-ARCH_SRCS := vga.c
+ARCH_SRCS := vga.c keyboard.c
 BOOT_SRC := boot.s
 
 OBJS := $(addprefix $(BUILD_DIR)/, $(SRCS:.c=.o))
@@ -81,7 +81,7 @@ fclean: clean
 
 re: fclean all
 
-$(STAMP_HEADERS): $(HEADERS) $(wildcard libc/includes/*.h) | $(BUILD_DIR)
+$(STAMP_HEADERS): $(wildcard includes/*.h) $(wildcard libc/includes/*.h) | $(BUILD_DIR)
 	mkdir -p $(SYSROOT)/usr/include
 	cp -R --preserve=timestamps $(INCLUDE_DIR)/. $(SYSROOT)/usr/include/.
 	cp -R --preserve=timestamps libc/includes/. $(SYSROOT)/usr/include/

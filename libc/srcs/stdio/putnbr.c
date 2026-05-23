@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stdio.h                                            :+:      :+:    :+:   */
+/*   putnbr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/23 11:25:12 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/23 13:59:10 by relaforg         ###   ########.fr       */
+/*   Created: 2026/05/23 13:56:10 by relaforg          #+#    #+#             */
+/*   Updated: 2026/05/23 13:58:42 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STDIO_H
-# define STDIO_H
+#include <limits.h>
+#include "stdio.h"
 
-# define EOF (-1)
+void	putnbr(int n)
+{
+	char	c;
 
-int		printf(const char* __restrict, ...);
-int		putchar(int);
-int		puts(const char*);
-void	putnbr(int n);
-
-#endif
+	if (n == INT_MIN)
+	{
+		puts("-2147483648");
+		return ;
+	}
+	if (n < 0)
+	{
+		putchar('-');
+		n *= -1;
+	}
+	if (n <= 9)
+	{
+		c = n + '0';
+		putchar(c);
+	}
+	else
+	{
+		putnbr(n / 10);
+		c = n % 10 + '0';
+		putchar(c);
+	}
+}

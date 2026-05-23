@@ -1,5 +1,6 @@
-#include "terminal.h"
 #include <stdio.h>
+#include "terminal.h"
+#include "keyboard.h"
 
 /* Check if the compiler thinks you are targeting the wrong operating system. */
 #if defined(__linux__)
@@ -16,4 +17,5 @@ void kernel_main(void)
 {
 	terminal_initialize();
 	printf("%s\n", "Hello World!");
+	listen_keyboard();
 }
