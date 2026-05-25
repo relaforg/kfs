@@ -6,7 +6,7 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/22 16:05:23 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 16:22:47 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 11:25:46 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ enum vga_color {
 	VGA_COLOR_WHITE = 15,
 };
 
-uint8_t	vga_entry_color(enum vga_color fg, enum vga_color bg);
+uint8_t		vga_entry_color(enum vga_color fg, enum vga_color bg);
 uint16_t	vga_entry(unsigned char uc, uint8_t color);
 
 #endif

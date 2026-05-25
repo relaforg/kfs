@@ -6,7 +6,7 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/22 15:20:31 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/22 16:14:50 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 13:25:27 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ char	*strrchr(const char *s, int c);
 int		strncmp(const char *s1, const char *s2, size_t n);
 char	*strnstr(const char *big, const char *little, size_t len);
 void	striteri(char *s, void (*f)(unsigned int, char*));
+void	*memcpy(void *dest, const void *src, size_t n);
 
 #endif

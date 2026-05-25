@@ -6,12 +6,13 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 12:55:33 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/25 11:22:31 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 13:26:13 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "keyboard.h"
+#include "terminal.h"
 #include "io.h"
 
 static const char g_scancode_map[128] = {
@@ -64,6 +65,43 @@ static const uint8_t	alt_pos = 1;
 
 static uint8_t	modifiers = 0;
 
+void	alt_shortcut(char c)
+{
+	switch (c)
+	{
+		case '1':
+			terminal_change_screen(1);
+			break ;
+		case '2':
+			terminal_change_screen(2);
+			break ;
+		case '3':
+			terminal_change_screen(3);
+			break ;
+		case '4':
+			terminal_change_screen(4);
+			break ;
+		case '5':
+			terminal_change_screen(5);
+			break ;
+		case '6':
+			terminal_change_screen(6);
+			break ;
+		case '7':
+			terminal_change_screen(7);
+			break ;
+		case '8':
+			terminal_change_screen(8);
+			break ;
+		case '9':
+			terminal_change_screen(9);
+			break ;
+		case '0':
+			terminal_change_screen(0);
+			break ;
+	}
+}
+
 void	listen_keyboard(void)
 {
 	uint8_t		status;
@@ -82,7 +120,7 @@ void	listen_keyboard(void)
 		{
 			tmp = keyboard_map[status];
 			if (modifiers >> alt_pos & 1)
-				printf("\ntest");
+				alt_shortcut(tmp);
 			else
 				printf("%c", tmp);
 		}
