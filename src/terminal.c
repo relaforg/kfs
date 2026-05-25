@@ -6,7 +6,7 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/22 16:13:06 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/25 16:00:03 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:28:35 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,38 +42,37 @@ void update_cursor()
 	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
+void	terminal_load_workspace(uint8_t workspace)
+{
+	terminal_row = workspaces[workspace].row;
+	terminal_column = workspaces[workspace].column;
+	terminal_color = workspaces[workspace].color;
+	memcpy(
+		terminal_buffer,
+		workspaces[workspace].buffer,
+		VGA_WIDTH * VGA_HEIGHT * sizeof(uint16_t)
+	);
+	update_cursor();
+}
+
 void terminal_initialize(void)
 {
-	terminal_row = 1;
-	terminal_column = 0;
-	terminal_color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
-	
-	for (size_t y = 0; y < VGA_HEIGHT; y++) {
-		for (size_t x = 0; x < VGA_WIDTH; x++) {
-			const size_t index = y * VGA_WIDTH + x;
-			if (x == 40 && y == 0)
-				terminal_buffer[index] = vga_entry('0', terminal_color);
-			else
-				terminal_buffer[index] = vga_entry(' ', terminal_color);
-		}
-	}
-
-	for (int i = 0 ; i < WORKSPACE_NBR ; i++)
+	for (int i = 0; i < WORKSPACE_NBR; i++)
 	{
 		workspaces[i].row = 1;
 		workspaces[i].column = 0;
 		workspaces[i].color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
-		
-		for (size_t y = 0; y < VGA_HEIGHT; y++) {
-			for (size_t x = 0; x < VGA_WIDTH; x++) {
-				const size_t index = y * VGA_WIDTH + x;
-				if (x == 40 && y == 0)
-					workspaces[i].buffer[index] = vga_entry('0' + i, workspaces[i].color);
-				else
-					workspaces[i].buffer[index] = vga_entry(' ', workspaces[i].color);
-			}
+
+		for (size_t j = 0 ; j < VGA_HEIGHT * VGA_WIDTH ; j++)
+		{
+			if (j == 40) // Workspace number
+				workspaces[i].buffer[j] = vga_entry('0' + i, workspaces[i].color);
+			else
+				workspaces[i].buffer[j] = vga_entry(' ', workspaces[i].color);
 		}
 	}
+
+	terminal_load_workspace(0);
 }
 
 void terminal_setcolor(uint8_t color) 
@@ -140,7 +139,7 @@ void	terminal_change_workspace(uint8_t workspace)
 	if (workspace >= WORKSPACE_NBR || workspace == workspace_idx)
 		return ;
 
-	// Save the 
+	// Save the workspace
 	workspaces[workspace_idx].row = terminal_row;
 	workspaces[workspace_idx].column = terminal_column;
 	workspaces[workspace_idx].color = terminal_color;
@@ -151,15 +150,6 @@ void	terminal_change_workspace(uint8_t workspace)
 	);
 
 	workspace_idx = workspace;
-
-	terminal_row = workspaces[workspace_idx].row;
-	terminal_column = workspaces[workspace_idx].column;
-	terminal_color = workspaces[workspace_idx].color;
-	memcpy(
-		terminal_buffer,
-		workspaces[workspace_idx].buffer,
-		VGA_WIDTH * VGA_HEIGHT * sizeof(uint16_t)
-	);
-	update_cursor();
+	terminal_load_workspace(workspace_idx);
 }
 
