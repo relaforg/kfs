@@ -6,7 +6,7 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 12:55:33 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/25 13:26:13 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 14:35:58 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,34 +70,34 @@ void	alt_shortcut(char c)
 	switch (c)
 	{
 		case '1':
-			terminal_change_screen(1);
+			terminal_change_workspace(1);
 			break ;
 		case '2':
-			terminal_change_screen(2);
+			terminal_change_workspace(2);
 			break ;
 		case '3':
-			terminal_change_screen(3);
+			terminal_change_workspace(3);
 			break ;
 		case '4':
-			terminal_change_screen(4);
+			terminal_change_workspace(4);
 			break ;
 		case '5':
-			terminal_change_screen(5);
+			terminal_change_workspace(5);
 			break ;
 		case '6':
-			terminal_change_screen(6);
+			terminal_change_workspace(6);
 			break ;
 		case '7':
-			terminal_change_screen(7);
+			terminal_change_workspace(7);
 			break ;
 		case '8':
-			terminal_change_screen(8);
+			terminal_change_workspace(8);
 			break ;
 		case '9':
-			terminal_change_screen(9);
+			terminal_change_workspace(9);
 			break ;
 		case '0':
-			terminal_change_screen(0);
+			terminal_change_workspace(0);
 			break ;
 	}
 }

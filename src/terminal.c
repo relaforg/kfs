@@ -6,7 +6,7 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/22 16:13:06 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/25 14:31:39 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 14:35:43 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@
 #include "terminal.h"
 #include "vga.h"
 
-#define SCREEN_NBR 10
+#define WORKSPACE_NBR 10
 
 size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer = (uint16_t*)VGA_MEMORY;
 
-uint8_t				screen_idx = 0;
-terminal_screen_t	screens[SCREEN_NBR];
+uint8_t					workspace_idx = 0;
+terminal_workspace_t	workspaces[WORKSPACE_NBR];
 
 
 void terminal_initialize(void)
@@ -43,19 +43,19 @@ void terminal_initialize(void)
 		}
 	}
 
-	for (int i = 0 ; i < SCREEN_NBR ; i++)
+	for (int i = 0 ; i < WORKSPACE_NBR ; i++)
 	{
-		screens[i].row = 1;
-		screens[i].column = 0;
-		screens[i].color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
+		workspaces[i].row = 1;
+		workspaces[i].column = 0;
+		workspaces[i].color = vga_entry_color(VGA_COLOR_LIGHT_GREY, VGA_COLOR_BLACK);
 		
 		for (size_t y = 0; y < VGA_HEIGHT; y++) {
 			for (size_t x = 0; x < VGA_WIDTH; x++) {
 				const size_t index = y * VGA_WIDTH + x;
 				if (x == 40 && y == 0)
-					screens[i].buffer[index] = vga_entry('0' + i, screens[i].color);
+					workspaces[i].buffer[index] = vga_entry('0' + i, workspaces[i].color);
 				else
-					screens[i].buffer[index] = vga_entry(' ', screens[i].color);
+					workspaces[i].buffer[index] = vga_entry(' ', workspaces[i].color);
 			}
 		}
 	}
@@ -118,28 +118,29 @@ void terminal_writestring(const char* data)
 	terminal_write(data, strlen(data));
 }
 
-void	terminal_change_screen(uint8_t screen)
+void	terminal_change_workspace(uint8_t workspace)
 {
-	if (screen >= SCREEN_NBR || screen == screen_idx)
+	if (workspace >= WORKSPACE_NBR || workspace == workspace_idx)
 		return ;
 
-	screens[screen_idx].row = terminal_row;
-	screens[screen_idx].column = terminal_column;
-	screens[screen_idx].color = terminal_color;
+	// Save the 
+	workspaces[workspace_idx].row = terminal_row;
+	workspaces[workspace_idx].column = terminal_column;
+	workspaces[workspace_idx].color = terminal_color;
 	memcpy(
-		screens[screen_idx].buffer,
+		workspaces[workspace_idx].buffer,
 		terminal_buffer,
 		VGA_WIDTH * VGA_HEIGHT * sizeof(uint16_t)
 	);
 
-	screen_idx = screen;
+	workspace_idx = workspace;
 
-	terminal_row = screens[screen_idx].row;
-	terminal_column = screens[screen_idx].column;
-	terminal_color = screens[screen_idx].color;
+	terminal_row = workspaces[workspace_idx].row;
+	terminal_column = workspaces[workspace_idx].column;
+	terminal_color = workspaces[workspace_idx].color;
 	memcpy(
 		terminal_buffer,
-		screens[screen_idx].buffer,
+		workspaces[workspace_idx].buffer,
 		VGA_WIDTH * VGA_HEIGHT * sizeof(uint16_t)
 	);
 }
