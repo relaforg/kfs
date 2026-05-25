@@ -6,15 +6,15 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/22 16:13:06 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/25 14:35:43 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:00:03 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stddef.h>
 #include <string.h>
 #include "terminal.h"
 #include "vga.h"
+#include "io.h"
 
 #define WORKSPACE_NBR 10
 
@@ -26,6 +26,21 @@ uint16_t* terminal_buffer = (uint16_t*)VGA_MEMORY;
 uint8_t					workspace_idx = 0;
 terminal_workspace_t	workspaces[WORKSPACE_NBR];
 
+void update_cursor()
+{
+	uint8_t		x, y;
+	uint16_t	pos;
+
+	x = terminal_column;
+	y = terminal_row;
+	
+	pos = y * VGA_WIDTH + x;
+
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}
 
 void terminal_initialize(void)
 {
@@ -74,14 +89,15 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 
 void	terminal_up_scroll()
 {
-	memmove((char *) (VGA_MEMORY + VGA_WIDTH * sizeof(uint16_t)),
-		 (char *) (VGA_MEMORY + (VGA_WIDTH * sizeof(uint16_t)) * 2),
-		 (VGA_HEIGHT - 1) * VGA_WIDTH * sizeof(uint16_t)
-		 );
-	bzero(
-		(void *)VGA_MEMORY + (VGA_HEIGHT - 1) * VGA_WIDTH * sizeof(uint16_t),
-		VGA_WIDTH * sizeof(uint16_t)
-	   );
+	memmove(
+		(char *) (VGA_MEMORY + VGA_WIDTH * sizeof(uint16_t)),
+		(char *) (VGA_MEMORY + (VGA_WIDTH * sizeof(uint16_t)) * 2),
+		(VGA_HEIGHT - 2) * VGA_WIDTH * sizeof(uint16_t)
+		);
+	for (size_t x = 0; x < VGA_WIDTH; x++) {
+		const size_t index = (VGA_HEIGHT - 1) * VGA_WIDTH + x;
+		terminal_buffer[index] = vga_entry(' ', terminal_color);
+	}
 }
 
 void terminal_putchar(char c) 
@@ -111,6 +127,7 @@ void terminal_write(const char* data, size_t size)
 {
 	for (size_t i = 0; i < size; i++)
 		terminal_putchar(data[i]);
+	update_cursor();
 }
 
 void terminal_writestring(const char* data) 
@@ -143,4 +160,6 @@ void	terminal_change_workspace(uint8_t workspace)
 		workspaces[workspace_idx].buffer,
 		VGA_WIDTH * VGA_HEIGHT * sizeof(uint16_t)
 	);
+	update_cursor();
 }
+
