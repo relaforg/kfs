@@ -6,7 +6,7 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/23 12:55:33 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/25 16:33:24 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:34:10 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static const uint8_t	alt_pos = 1;
 
 static uint8_t	modifiers = 0;
 
-void	alt_shortcut(char c)
+static void	alt_shortcut(char c)
 {
 	switch (c)
 	{

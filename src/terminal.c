@@ -6,7 +6,7 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/22 16:13:06 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/25 16:28:35 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:34:46 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ uint16_t* terminal_buffer = (uint16_t*)VGA_MEMORY;
 uint8_t					workspace_idx = 0;
 terminal_workspace_t	workspaces[WORKSPACE_NBR];
 
-void update_cursor()
+static void update_cursor()
 {
 	uint8_t		x, y;
 	uint16_t	pos;
@@ -42,7 +42,7 @@ void update_cursor()
 	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
-void	terminal_load_workspace(uint8_t workspace)
+static void	terminal_load_workspace(uint8_t workspace)
 {
 	terminal_row = workspaces[workspace].row;
 	terminal_column = workspaces[workspace].column;
