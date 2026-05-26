@@ -24,7 +24,7 @@ CRTN_OBJ = $(BUILD_DIR)/crtn.o
 vpath %.c src $(ARCH_DIR)
 vpath %.s src/asm $(ARCH_DIR)
 SRCS := kernel.c terminal.c
-ARCH_SRCS := vga.c keyboard.c
+ARCH_SRCS := vga.c keyboard.c cursor.c
 BOOT_SRC := boot.s
 
 OBJS := $(addprefix $(BUILD_DIR)/, $(SRCS:.c=.o))

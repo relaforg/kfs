@@ -6,7 +6,7 @@
 /*   By: relaforg <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/22 16:13:06 by relaforg          #+#    #+#             */
-/*   Updated: 2026/05/25 16:34:46 by relaforg         ###   ########.fr       */
+/*   Updated: 2026/05/26 08:42:35 by relaforg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <string.h>
 #include "terminal.h"
 #include "vga.h"
-#include "io.h"
+#include "cursor.h"
 
 #define WORKSPACE_NBR 10
 
@@ -26,21 +26,6 @@ uint16_t* terminal_buffer = (uint16_t*)VGA_MEMORY;
 uint8_t					workspace_idx = 0;
 terminal_workspace_t	workspaces[WORKSPACE_NBR];
 
-static void update_cursor()
-{
-	uint8_t		x, y;
-	uint16_t	pos;
-
-	x = terminal_column;
-	y = terminal_row;
-	
-	pos = y * VGA_WIDTH + x;
-
-	outb(0x3D4, 0x0F);
-	outb(0x3D5, (uint8_t) (pos & 0xFF));
-	outb(0x3D4, 0x0E);
-	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
-}
 
 static void	terminal_load_workspace(uint8_t workspace)
 {
@@ -52,7 +37,7 @@ static void	terminal_load_workspace(uint8_t workspace)
 		workspaces[workspace].buffer,
 		VGA_WIDTH * VGA_HEIGHT * sizeof(uint16_t)
 	);
-	update_cursor();
+	update_cursor(terminal_column, terminal_row);
 }
 
 void terminal_initialize(void)
@@ -126,7 +111,7 @@ void terminal_write(const char* data, size_t size)
 {
 	for (size_t i = 0; i < size; i++)
 		terminal_putchar(data[i]);
-	update_cursor();
+	update_cursor(terminal_column, terminal_row);
 }
 
 void terminal_writestring(const char* data) 
