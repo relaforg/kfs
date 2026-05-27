@@ -18,6 +18,6 @@ void kernel_main(void)
 {
 	gdt_init();
 	terminal_initialize();
-	printf("%s\n", "Hello World!");
+	printf("%x\n", 256);
 	listen_keyboard();
 }

@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
+#include "stdlib.h"
 
 static bool print(const char* data, size_t length) {
 	const unsigned char* bytes = (const unsigned char*) data;
@@ -65,7 +67,18 @@ int printf(const char* restrict format, ...) {
 			format++;
 			int str = va_arg(parameters, int);
 			putnbr(str);
-		} else {
+		}
+		else if (*format == 'x')
+		{
+			uint16_t n = va_arg(parameters, int);
+			char	out[UINT16_HEX_MAX_SIZE + 1];
+			size_t	size = u16toa_base(out, n, "0123456789ABCDEF");
+			if (!print(out, size))
+				return (0);
+			written += size;
+			format++;
+		}
+		else {
 			format = format_begun_at;
 			size_t len = strlen(format);
 			if (maxrem < len) {
